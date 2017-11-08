@@ -1,4 +1,5 @@
-# Οπτικοποίηση δεδομένων χορηγιών (UK)
+# Οπτικοποίηση δεδομένων χορηγιών (UK)\
+# P2013053 - ΚΟΡΜΠΑΣ ΠΑΝΑΓΙΩΤΗΣ
 
 Πηγή: [https://github.com/neilhawkins/d3-uk-political-donations](https://github.com/neilhawkins/d3-uk-political-donations)
 
