@@ -283,8 +283,8 @@ function moveToAmount(alpha) {
 				centreX = 400;
 			}
 
-		d.x += (centreX - d.x) * (brake + 0.04) * alpha * 1.0;
-		d.y += (centreY - d.y) * (brake + 0.04) * alpha * 1.0;
+		d.x += (centreX - d.x) * (brake + 0.06) * alpha * 1.1;
+		d.y += (centreY - d.y) * (brake + 0.06) * alpha * 1.1;
 	};
 }
 
