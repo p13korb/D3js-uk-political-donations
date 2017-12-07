@@ -283,8 +283,8 @@ function moveToAmount(alpha) {
 				centreY = svgCentre.y + 50;
 			}
 
-		d.x += (centreX - d.x) * (brake + 0.06) * alpha * 1.1;
-		d.y += (centreY - d.y) * (brake + 0.06) * alpha * 1.1;
+		d.x += (centreX - d.x) * (brake + 0.02) * alpha * 1.1;
+		d.y += (centreY - d.y) * (brake + 0.02) * alpha * 1.1;
 	};
 }
 
