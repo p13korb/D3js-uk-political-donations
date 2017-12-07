@@ -154,8 +154,8 @@ function fundsType() {
 
 function amount() {
 	force.gravity(0)
-		.friction(0.8)
-		.charge(function(d) { return -Math.pow(d.radius, 2.0) / 3; })
+		.friction(0.75)
+		.charge(function(d) { return -Math.pow(d.radius, 2.0) / 2.5; })
 		.on("tick", amounts)
 		.start();
 }
@@ -269,18 +269,16 @@ function moveToFunds(alpha) {
 
 function moveToAmount(alpha) {
 	return function(d) {
-			var centreX;
-			var centreY;
 	
 			if (d.value <= 50000) {
 				centreY = svgCentre.x ;
-				centreX = centreY = svgCentre.y -50;
+				centreX = svgCentre.y ;
 			} else if (d.value <= 500000) {
 				centreX = svgCentre.x + 150;
 				centreY = svgCentre.y ;
 			}else if (d.value >= 1000000) {
 				centreX = svgCentre.x + 300;
-				centreY = svgCentre.y + 50;
+				centreY = svgCentre.y ;
 			}
 
 		d.x += (centreX - d.x) * (brake + 0.02) * alpha * 1.1;
