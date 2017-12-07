@@ -48,13 +48,13 @@ li {
     position: absolute;
 }
 #amount500k {
-    left: 425px;
-    top: 265px;
+    left: 475px;
+    top: 300px;
     position: absolute; 
 }
 #amount1mm {
     left: 700px;
-    top: 300px;
+    top: 400px;
     position: absolute; 
 }
 #amount {
