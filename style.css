@@ -42,17 +42,17 @@ li {
 #view-amount-type {
     height: 100%;
 }
-#50k {
+#amount50k {
     left: 150px;
     top: 230px;
     position: absolute;
 }
-#500k {
+#amount500k {
     left: 425px;
     top: 265px;
     position: absolute; 
 }
-#1mm {
+#amount1mm {
     left: 700px;
     top: 300px;
     position: absolute; 
