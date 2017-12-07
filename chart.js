@@ -88,6 +88,7 @@ function transition(name) {
 		$("#view-amount-type").fadeIn(1000);
 		return amount();
 	}
+}
 function start() {
 
 	node = nodeGroup.selectAll("circle")
