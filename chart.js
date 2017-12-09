@@ -106,7 +106,7 @@ function start() {
 		// Alternative title based 'tooltips'
 		// node.append("title")
 		//	.text(function(d) { return d.donor; });
-		.on("click", function(d) {window.open("http://www.google.com/search?q=" + d.donor)});
+		//.on("click", function(d) {window.open("http://www.google.com/search?q=" + d.donor)});
 		force.gravity(0)
 			.friction(0.75)
 			.charge(function(d) { return -Math.pow(d.radius, 2) / 3; })
@@ -333,7 +333,7 @@ function mouseover(d, i) {
 	
 
 	mosie.classed("active", true);
-	//window.speechSynthesis.speak(TextToSpeech)
+	window.speechSynthesis.speak(TextToSpeech)
 	d3.select(".tooltip")
   	.style("left", (parseInt(d3.select(this).attr("cx") - 80) + offset.left) + "px")
     .style("top", (parseInt(d3.select(this).attr("cy") - (d.radius+150)) + offset.top) + "px")
