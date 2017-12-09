@@ -106,7 +106,7 @@ function start() {
 		// Alternative title based 'tooltips'
 		// node.append("title")
 		//	.text(function(d) { return d.donor; });
-		//.on("click", function(d) {window.open("http://www.google.com/search?q=" + d.donor)});
+		.on("click", function(d) {window.open("http://www.google.com/search?q=" + d.donor)});
 		force.gravity(0)
 			.friction(0.75)
 			.charge(function(d) { return -Math.pow(d.radius, 2) / 3; })
