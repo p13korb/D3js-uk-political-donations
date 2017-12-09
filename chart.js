@@ -106,7 +106,7 @@ function start() {
 		// Alternative title based 'tooltips'
 		// node.append("title")
 		//	.text(function(d) { return d.donor; });
-
+		.on("click", function(d) {window.open("http://www.google.gr/search?q=" + d.donor)});
 		force.gravity(0)
 			.friction(0.75)
 			.charge(function(d) { return -Math.pow(d.radius, 2) / 3; })
@@ -319,6 +319,8 @@ function display(data) {
 
 function mouseover(d, i) {
 	// tooltip popup
+	var TextToSpeech = new SpeechSynthesisUtterance("Ο δότης " + donor + " έχει προσφέρει " + amount + " Ευρώ");
+	window.speechSynthesis.speak(TextToSpeech)
 	var mosie = d3.select(this);
 	var amount = mosie.attr("amount");
 	var donor = d.donor;
@@ -341,6 +343,7 @@ function mouseover(d, i) {
 
 function mouseout() {
 	// no more tooltips
+		window.speechSynthesis.cancel();
 		var mosie = d3.select(this);
 
 		mosie.classed("active", false);
