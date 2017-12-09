@@ -333,7 +333,7 @@ function mouseover(d, i) {
 	
 
 	mosie.classed("active", true);
-	//window.speechSynthesis.speak(TextToSpeech)
+	window.speechSynthesis.speak(TextToSpeech)
 	d3.select(".tooltip")
   	.style("left", (parseInt(d3.select(this).attr("cx") - 80) + offset.left) + "px")
     .style("top", (parseInt(d3.select(this).attr("cy") - (d.radius+150)) + offset.top) + "px")
