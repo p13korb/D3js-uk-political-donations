@@ -77,6 +77,16 @@ function transition(name) {
 		$("#view-source-type").fadeIn(1000);
 		return fundsType();
 	}
+	if (name === "group-by-amount") {
+		$("#initial-content").fadeOut(500);
+		$("#value-scale").fadeOut(600);
+		$("#view-donor-type").fadeOut(500);
+		$("#view-party-type").fadeOut(500);
+		$("#view-source-type").fadeOut(500);
+		$("#view-amount-type").fadeIn(2000);
+		return amount();
+	}
+}
 
 function start() {
 
