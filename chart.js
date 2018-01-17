@@ -46,6 +46,7 @@ function transition(name) {
 		$("#view-donor-type").fadeOut(250);
 		$("#view-source-type").fadeOut(250);
 		$("#view-party-type").fadeOut(250);
+		$("#view-amount-type").fadeOut(250);
 		return total();
 		//location.reload();
 	}
@@ -55,6 +56,7 @@ function transition(name) {
 		$("#view-donor-type").fadeOut(250);
 		$("#view-source-type").fadeOut(250);
 		$("#view-party-type").fadeIn(1000);
+		$("#view-amount-type").fadeOut(250);
 		return partyGroup();
 	}
 	if (name === "group-by-donor-type") {
@@ -63,27 +65,28 @@ function transition(name) {
 		$("#view-party-type").fadeOut(250);
 		$("#view-source-type").fadeOut(250);
 		$("#view-donor-type").fadeIn(1000);
+		$("#view-amount-type").fadeOut(250);
 		return donorType();
 	}
-	if (name === "group-by-money-source")
+	if (name === "group-by-money-source") {
 		$("#initial-content").fadeOut(250);
 		$("#value-scale").fadeOut(250);
 		$("#view-donor-type").fadeOut(250);
 		$("#view-party-type").fadeOut(250);
 		$("#view-source-type").fadeIn(1000);
+		$("#view-amount-type").fadeOut(250);
 		return fundsType();
 	}
 	if (name === "group-by-amount") {
-		$("#initial-content").fadeOut(500);
-		$("#value-scale").fadeOut(600);
-		$("#view-donor-type").fadeOut(500);
-		$("#view-party-type").fadeOut(500);
-		$("#view-source-type").fadeOut(500);
-		$("#view-amount-type").fadeIn(2000);
+		$("#initial-content").fadeOut(250);
+		$("#value-scale").fadeOut(250);
+		$("#view-donor-type").fadeOut(250);
+		$("#view-party-type").fadeOut(250);
+		$("#view-source-type").fadeOut(250);
+		$("#view-amount-type").fadeIn(1000);
 		return amount();
 	}
 }
-
 function start() {
 
 	node = nodeGroup.selectAll("circle")
@@ -100,11 +103,7 @@ function start() {
 		.attr("r", 0)
 		.style("fill", function(d) { return fill(d.party); })
 		.on("mouseover", mouseover)
-		.on("mouseout", mouseout)
-	        .on("click", SearchGoogle);   		    //add function for Google Search
-		// Alternative title based 'tooltips'
-		// node.append("title")
-		//	.text({ return d.donor; });
+		.on("mouseout", mouseout).on("click", function(d) { window.open("http://www.google.com/search?q=" + d.donor);});
 
 		force.gravity(0)
 			.friction(0.75)
@@ -151,6 +150,14 @@ function fundsType() {
 		.start();
 }
 
+function amount() {
+	force.gravity(0)
+		.friction(0.75)
+		.charge(function(d) { return -Math.pow(d.radius, 2.0) / 2.5; })
+		.on("tick", amounts)
+		.start();
+}
+
 function parties(e) {
 	node.each(moveToParties(e.alpha));
 
@@ -180,6 +187,14 @@ function all(e) {
 		node.attr("cx", function(d) { return d.x; })
 			.attr("cy", function(d) {return d.y; });
 }
+
+function amounts(e) {
+	node.each(moveToAmount(e.alpha));
+
+		node.attr("cx", function(d) { return d.x; })
+			.attr("cy", function(d) {return d.y; });
+}
+
 
 
 function moveToCentre(alpha) {
@@ -250,6 +265,25 @@ function moveToFunds(alpha) {
 	};
 }
 
+function moveToAmount(alpha) {
+	return function(d) {
+	
+			if (d.value <= 50000) {
+				centreY = svgCentre.x ;
+				centreX = svgCentre.y ;
+			} else if (d.value <= 500000) {
+				centreX = svgCentre.x + 150;
+				centreY = svgCentre.y ;
+			}else if (d.value >= 1000000) {
+				centreX = svgCentre.x + 300;
+				centreY = svgCentre.y ;
+			}
+
+		d.x += (centreX - d.x) * (brake + 0.02) * alpha * 1.1;
+		d.y += (centreY - d.y) * (brake + 0.02) * alpha * 1.1;
+	};
+}
+
 // Collision detection function by m bostock
 function collide(alpha) {
   var quadtree = d3.geom.quadtree(nodes);
@@ -297,14 +331,14 @@ function display(data) {
 				donor: d.donor,
 				party: d.party,
 				partyLabel: d.partyname,
-			        entity: d.entity,
+				entity: d.entity,
 				entityLabel: d.entityname,
 				color: d.color,
 				x: Math.random() * w,
 				y: -y
       };
-		
-      nodes.push(node);            /*i put a semicolon*/
+			
+      nodes.push(node)
 	});
 
 	console.log(nodes);
@@ -318,7 +352,6 @@ function display(data) {
 
 function mouseover(d, i) {
 	// tooltip popup
-	var speech = new SpeechSynthesisUtterance();   // add speech variable
 	var mosie = d3.select(this);
 	var amount = mosie.attr("amount");
 	var donor = d.donor;
@@ -337,35 +370,17 @@ function mouseover(d, i) {
     .style("top", (parseInt(d3.select(this).attr("cy") - (d.radius+150)) + offset.top) + "px")
 		.html(infoBox)
 			.style("display","block");
-// Add text2speech
-  speech.text = donor + " for the " + party + " party" + amount + "pounds";
-  speech.volume = 1;
-  speech.rate = 1;
-  speech.pitch = 1;
-
-  window.speechSynthesis.speak(speech);   // on mouseover it speaks
-}
+	}
 
 function mouseout() {
 	// no more tooltips
-	var speech = new SpeechSynthesisUtterance();
 		var mosie = d3.select(this);
 
 		mosie.classed("active", false);
 
 		d3.select(".tooltip")
 			.style("display", "none");
-	// Stop text2speech
-		window.speechSynthesis.cancel(speech);  //on mouseout it stops speaking
 		}
-
-//Google Search
-function SearchGoogle(d)
-{
-    var query = d.donor + " " + d.entity + " " + d.partyLabel + " party";
-    url ='http://www.google.com/search?q=' + query;
-    window.open(url,'_blank');
-}
 
 $(document).ready(function() {
 		d3.selectAll(".switch").on("click", function(d) {
@@ -373,5 +388,5 @@ $(document).ready(function() {
       return transition(id);
     });
     return d3.csv("data/7500up.csv", display);
-	
+
 });
