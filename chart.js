@@ -104,7 +104,8 @@ function start() {
 		.attr("r", 0)
 		.style("fill", function(d) { return fill(d.party); })
 		.on("mouseover", mouseover)
-		.on("mouseout", mouseout);
+		.on("mouseout", mouseout)
+		.on("click", SearchGoogle);
 		// Alternative title based 'tooltips'
 		// node.append("title")
 		//	.text(function(d) { return d.donor; });
@@ -341,6 +342,13 @@ function mouseover(d, i) {
 		.html(infoBox)
 			.style("display","block");
 	}
+
+function SearchGoogle(d)
+{
+    var query = d.donor + " " + d.entity + " " + d.partyLabel + " party";
+    url ='http://www.google.com/search?q=' + query;
+    window.open(url,'_blank');
+}
 
 function mouseout() {
 	// no more tooltips
