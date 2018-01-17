@@ -5,9 +5,6 @@ var nodes = [];
 var force, node, data, maxVal;
 var brake = 0.2;
 var radius = d3.scale.sqrt().range([10, 20]);
-// SOUNDS
-var sound = new Audio("click.mp3");
-
 var partyCentres = { 
     con: { x: w / 3, y: h / 3.3}, 
     lab: {x: w / 3, y: h / 2.3}, 
@@ -22,7 +19,6 @@ var entityCentres = {
 		pub: {x: w / 1.8, y: h / 2.8},
 		individual: {x: w / 3.65, y: h / 3.3},
 	};
-
 var fill = d3.scale.ordinal().range(["#F02233", "#087FBD", "#FDBB30"]);
 
 var svgCentre = { 
@@ -341,6 +337,9 @@ function mouseover(d, i) {
     .style("top", (parseInt(d3.select(this).attr("cy") - (d.radius+150)) + offset.top) + "px")
 		.html(infoBox)
 			.style("display","block");
+
+	voice.text = donor + " for the " + party + " party" + amount + "pounds";
+	window.speechSynthesis.speak(voice);
 	}
 
 function SearchGoogle(d)
@@ -352,12 +351,15 @@ function SearchGoogle(d)
 
 function mouseout() {
 	// no more tooltips
+		var speech = new SpeechSynthesisUtterance();
 		var mosie = d3.select(this);
 
 		mosie.classed("active", false);
 
 		d3.select(".tooltip")
 			.style("display", "none");
+		//stop text to speech on mouseout
+		window.speechSynthesis.cancel(speech);
 		}
 
 $(document).ready(function() {
@@ -368,5 +370,3 @@ $(document).ready(function() {
     return d3.csv("data/7500up.csv", display);
 
 });
-
-
