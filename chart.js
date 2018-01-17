@@ -101,10 +101,10 @@ function start() {
 		.style("fill", function(d) { return fill(d.party); })
 		.on("mouseover", mouseover)
 		.on("mouseout", mouseout)
-		.on("click", SearchGoogle);
+	        .on("click", SearchGoogle);   		    //add function for Google Search
 		// Alternative title based 'tooltips'
 		// node.append("title")
-		//	.text(function(d) { return d.donor; });
+		//	.text({ return d.donor; });
 
 		force.gravity(0)
 			.friction(0.75)
@@ -297,14 +297,14 @@ function display(data) {
 				donor: d.donor,
 				party: d.party,
 				partyLabel: d.partyname,
-				entity: d.entity,
+			        entity: d.entity,
 				entityLabel: d.entityname,
 				color: d.color,
 				x: Math.random() * w,
 				y: -y
       };
-			
-      nodes.push(node)
+		
+      nodes.push(node);            /*i put a semicolon*/
 	});
 
 	console.log(nodes);
@@ -318,7 +318,7 @@ function display(data) {
 
 function mouseover(d, i) {
 	// tooltip popup
-	var speech = new SpeechSynthesisUtterance();
+	var speech = new SpeechSynthesisUtterance();   // add speech variable
 	var mosie = d3.select(this);
 	var amount = mosie.attr("amount");
 	var donor = d.donor;
@@ -337,11 +337,29 @@ function mouseover(d, i) {
     .style("top", (parseInt(d3.select(this).attr("cy") - (d.radius+150)) + offset.top) + "px")
 		.html(infoBox)
 			.style("display","block");
+// Add text2speech
+  speech.text = donor + " for the " + party + " party" + amount + "pounds";
+  speech.volume = 1;
+  speech.rate = 1;
+  speech.pitch = 1;
 
-	voice.text = donor + " for the " + party + " party" + amount + "pounds";
-	window.speechSynthesis.speak(voice);
-	}
+  window.speechSynthesis.speak(speech);   // on mouseover it speaks
+}
 
+function mouseout() {
+	// no more tooltips
+	var speech = new SpeechSynthesisUtterance();
+		var mosie = d3.select(this);
+
+		mosie.classed("active", false);
+
+		d3.select(".tooltip")
+			.style("display", "none");
+	// Stop text2speech
+		window.speechSynthesis.cancel(speech);  //on mouseout it stops speaking
+		}
+
+//Google Search
 function SearchGoogle(d)
 {
     var query = d.donor + " " + d.entity + " " + d.partyLabel + " party";
@@ -349,24 +367,11 @@ function SearchGoogle(d)
     window.open(url,'_blank');
 }
 
-function mouseout() {
-	// no more tooltips
-		var speech = new SpeechSynthesisUtterance();
-		var mosie = d3.select(this);
-
-		mosie.classed("active", false);
-
-		d3.select(".tooltip")
-			.style("display", "none");
-		//stop text to speech on mouseout
-		window.speechSynthesis.cancel(speech);
-		}
-
 $(document).ready(function() {
 		d3.selectAll(".switch").on("click", function(d) {
       var id = d3.select(this).attr("id");
       return transition(id);
     });
     return d3.csv("data/7500up.csv", display);
-
+	
 });
