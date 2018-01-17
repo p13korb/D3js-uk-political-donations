@@ -321,6 +321,7 @@ function display(data) {
 
 function mouseover(d, i) {
 	// tooltip popup
+	var speech = new SpeechSynthesisUtterance();
 	var mosie = d3.select(this);
 	var amount = mosie.attr("amount");
 	var donor = d.donor;
